@@ -1,9 +1,15 @@
 const express = require("express");
+const dashboardControllers = require("../controllers.js/dashboardControllers");
 const hrControllers = require("../controllers.js/hrControllers");
 const prControllers = require("../controllers.js/prControllers");
 
 const Router = express.Router();
 
+//UI
+//dashboard
+Router.get("/", dashboardControllers.getIndex);
+
+//API
 //pr
 Router.get("/pr/employees", prControllers.getAllEmployees);
 
