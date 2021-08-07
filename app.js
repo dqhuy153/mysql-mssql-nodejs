@@ -5,6 +5,7 @@ const cors = require("cors");
 const exphbs = require("express-handlebars");
 
 const dashboardRouters = require("./routers/dashboard-routers");
+const apiRouter = require("./routers/api-router");
 
 const app = express();
 
@@ -41,5 +42,6 @@ app.set("view engine", "handlebars");
 app.set("views", path.join(__dirname, "resources", "views"));
 
 app.use(dashboardRouters);
+app.use(apiRouter);
 
 app.listen(3000);

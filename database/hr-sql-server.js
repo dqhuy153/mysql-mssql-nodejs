@@ -12,6 +12,6 @@ var config = {
   },
 };
 
-const hr = mssql.connect(config);
+const hrConnector = mssql.connect(config);
 
-module.exports = hr;
+module.exports = hrConnector;

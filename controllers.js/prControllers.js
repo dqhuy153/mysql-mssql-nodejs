@@ -1,15 +1,10 @@
-const pr = require("../database/pr-my-sql");
+const pr = require("../models/pr");
 
 module.exports = {
   //GET: /pr/employees
   getAllEmployees(req, res, next) {
-    pr.getConnection((err, connection) => {
-      if (err) throw err;
-
-      connection.query("SELECT * FROM employee", (err, result, fields) => {
-        if (err) throw err;
-        res.send(result);
-      });
+    pr.getAllEmployees((result) => {
+      res.status(200).json(result);
     });
   },
 
@@ -17,100 +12,82 @@ module.exports = {
   getEmployee(req, res, next) {
     const idEmployee = req.params.idEmployee;
 
-    pr.getConnection((err, connection) => {
-      if (err) throw err;
-
-      connection.query(
-        `SELECT * FROM employee WHERE idEmployee = ${idEmployee}`,
-        (err, result, fields) => {
-          if (err) {
-            return res.send(err);
-          }
-
-          if (result.length == 0) {
-            return res.send({
-              message: "Not found employee!",
-            });
-          }
-          res.send(result);
-        }
-      );
+    pr.getEmployee(idEmployee, (result) => {
+      res.status(200).json(result);
     });
   },
 
   //POST: /pr/new-employee
   addNewEmployee(req, res, next) {
-    pr.getConnection((err, connection) => {
-      if (err) throw err;
+    const Employee_Number = 3;
+    const idEmployee = 3;
+    const Last_Name = "A";
+    const First_Name = "Nguyen";
+    const SSN = 3243;
+    const Pay_Rate = 3;
+    const Payrates_id = 1;
+    const Vacation_Days = 10;
+    const Paid_To_Date = 99;
+    const Paid_Last_Year = 99;
 
-      connection.query(
-        "INSERT INTO employee(Employee_Number, idEmployee, Last_Name, First_Name, SSN, Pay_Rate, Payrates_id, Vacation_Days, Paid_To_Date, Paid_Last_Year) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-        [3, 3, "A", "Nguyen", "3242", 3, 1, 10, 99, 99],
-        (err, result, fields) => {
-          if (err) {
-            return res.send(err);
-          }
-
-          res.send(result);
-        }
-      );
-    });
+    pr.addNewEmployee(
+      {
+        Employee_Number,
+        idEmployee,
+        Last_Name,
+        First_Name,
+        SSN,
+        Pay_Rate,
+        Payrates_id,
+        Vacation_Days,
+        Paid_To_Date,
+        Paid_Last_Year,
+      },
+      (result) => {
+        res.status(200).json(result);
+      }
+    );
   },
 
   //PUT: /pr/employees (update)
   updateEmployee(req, res, next) {
-    const idEmployee = 3;
+    const idEmployee = req.body.id;
 
-    pr.getConnection((err, connection) => {
-      if (err) throw err;
+    const Employee_Number = 3;
+    const Last_Name = "B";
+    const First_Name = "Nguyen";
+    const SSN = 300;
+    const Pay_Rate = 3;
+    const Payrates_id = 2;
+    const Vacation_Days = 12;
+    const Paid_To_Date = 90;
+    const Paid_Last_Year = 99;
 
-      connection.query(
-        `SELECT * FROM employee WHERE idEmployee = ${idEmployee}`,
-        (err, result) => {
-          if (result.length == 0) {
-            return res.send({ message: "Not found employee!" });
-          }
-
-          connection.query(
-            `UPDATE employee SET Employee_Number = ?, Last_Name = ?, First_Name = ?, SSN = ?, Pay_Rate =? , Payrates_id = ?, Vacation_Days = ?, Paid_To_Date  = ?, Paid_Last_Year = ? WHERE idEmployee = ${idEmployee}`,
-            [3, "B", "Nguyen", "3242", 3, 5, 11, 99, 99],
-            (err, result, fields) => {
-              if (err) {
-                return res.send(err);
-              }
-              res.send(result);
-            }
-          );
-        }
-      );
-    });
+    pr.updateEmployee(
+      {
+        Employee_Number,
+        idEmployee,
+        Last_Name,
+        First_Name,
+        SSN,
+        Pay_Rate,
+        Payrates_id,
+        Vacation_Days,
+        Paid_To_Date,
+        Paid_Last_Year,
+      },
+      (result) => {
+        res.status(200).json(result);
+      }
+    );
   },
 
   //DELTE: /pr/employees
   deleteEmployee(req, res, next) {
-    const idEmployee = 3;
+    const idEmployee = req.body.id;
 
-    pr.getConnection((err, connection) => {
-      if (err) throw err;
-
-      connection.query(
-        `SELECT * FROM employee WHERE idEmployee = ${idEmployee}`,
-        (err, result) => {
-          if (result.length == 0) {
-            return res.send({ message: "Not found employee!" });
-          }
-
-          connection.query(
-            `DELETE FROM employee WHERE idEmployee = ${idEmployee}`,
-            (err, result, fields) => {
-              if (err) {
-                res.send(err);
-              }
-              res.send(result);
-            }
-          );
-        }
-      );
+    pr.deleteEmployee(idEmployee, (result) => {
+      res.status(200).json(result);
     });
   },
 };
