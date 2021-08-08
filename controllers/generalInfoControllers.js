@@ -3,7 +3,7 @@ const GeneralInfo = require("../models/generalInfo");
 const hr = require("../models/hr");
 const pr = require("../models/pr");
 
-const totalIncomeHandler = (sqlFilterHr) => {
+const totalIncomeHandler = (sqlFilterHr, selectedValue) => {
   return new Promise((resolve, reject) => {
     const employeeIds = [];
 
@@ -14,15 +14,15 @@ const totalIncomeHandler = (sqlFilterHr) => {
         );
       }
 
-      const sqlPr = `SELECT Paid_To_Date FROM employee WHERE idEmployee IN (
+      const sqlPr = `SELECT ${selectedValue} FROM employee WHERE idEmployee IN (
             ${employeeIds.join(",")})`;
 
-      //here
       pr.filterEmployees(sqlPr, (result) => {
+        //
         let totalIncome;
         if (result.length > 0) {
           totalIncome = result.reduce(
-            (total, currItem) => (total += currItem.Paid_To_Date),
+            (total, currItem) => (total += currItem[selectedValue]),
             0
           );
         }
@@ -39,37 +39,113 @@ exports.getGeneralInfo = async (req, res, next) => {
   res.status(200).json(generalInfo);
 };
 
+const allSql = "SELECT Employee_ID FROM Personal";
+const shareholdersSql =
+  "SELECT Employee_ID FROM Personal WHERE Shareholder_Status = 1";
+const staffsSql =
+  "SELECT Employee_ID FROM Personal WHERE Shareholder_Status = 0";
+const menSql = "SELECT Employee_ID FROM Personal WHERE Gender = 1";
+const womenSql = "SELECT Employee_ID FROM Personal WHERE Gender = 0";
+const fullTimeSql = "SELECT Employee_ID FROM Personal WHERE Benefit_Plans = 1";
+const partTimeSql = "SELECT Employee_ID FROM Personal WHERE Benefit_Plans = 2";
+
 exports.updateGeneralInfo = async (req, res, next) => {
-  //totalIncomeShareholders
+  const totalIncome = await totalIncomeHandler(allSql, "Paid_To_Date");
   const totalIncomeShareholders = await totalIncomeHandler(
-    "SELECT Employee_ID FROM Personal WHERE Shareholder_Status = 0"
+    shareholdersSql,
+    "Paid_To_Date"
   );
-  const totalIncomeStaffs = await totalIncomeHandler(
-    "SELECT Employee_ID FROM Personal WHERE Shareholder_Status = 1"
-  );
-  const totalIncomeMen = await totalIncomeHandler(
-    "SELECT Employee_ID FROM Personal WHERE Gender = 0"
-  );
-  const totalIncomeWomen = await totalIncomeHandler(
-    "SELECT Employee_ID FROM Personal WHERE Gender = 1"
-  );
+  const totalIncomeStaffs = await totalIncomeHandler(staffsSql, "Paid_To_Date");
+  const totalIncomeMen = await totalIncomeHandler(menSql, "Paid_To_Date");
+  const totalIncomeWomen = await totalIncomeHandler(womenSql, "Paid_To_Date");
   const totalIncomeFullTime = await totalIncomeHandler(
-    "SELECT Employee_ID FROM Personal WHERE Benefit_Plans = 1"
+    fullTimeSql,
+    "Paid_To_Date"
   );
   const totalIncomePartTime = await totalIncomeHandler(
-    "SELECT Employee_ID FROM Personal WHERE Benefit_Plans = 2"
+    partTimeSql,
+    "Paid_To_Date"
+  );
+
+  const totalIncomeLastYear = await totalIncomeHandler(
+    allSql,
+    "Paid_Last_Year"
+  );
+  const totalIncomeShareholdersLastYear = await totalIncomeHandler(
+    shareholdersSql,
+    "Paid_Last_Year"
+  );
+  const totalIncomeStaffsLastYear = await totalIncomeHandler(
+    staffsSql,
+    "Paid_Last_Year"
+  );
+  const totalIncomeMenLastYear = await totalIncomeHandler(
+    menSql,
+    "Paid_Last_Year"
+  );
+  const totalIncomeWomenLastYear = await totalIncomeHandler(
+    womenSql,
+    "Paid_Last_Year"
+  );
+  const totalIncomeFullTimeLastYear = await totalIncomeHandler(
+    fullTimeSql,
+    "Paid_Last_Year"
+  );
+  const totalIncomePartTimeLastYear = await totalIncomeHandler(
+    partTimeSql,
+    "Paid_Last_Year"
+  );
+
+  const totalVacationDay = await totalIncomeHandler(allSql, "Vacation_Days");
+  const totalVacationDayShareholders = await totalIncomeHandler(
+    shareholdersSql,
+    "Vacation_Days"
+  );
+  const totalVacationDayStaffs = await totalIncomeHandler(
+    staffsSql,
+    "Vacation_Days"
+  );
+  const totalVacationDayMen = await totalIncomeHandler(menSql, "Vacation_Days");
+  const totalVacationDayWomen = await totalIncomeHandler(
+    womenSql,
+    "Vacation_Days"
+  );
+  const totalVacationDayFullTime = await totalIncomeHandler(
+    fullTimeSql,
+    "Vacation_Days"
+  );
+  const totalVacationDayPartTime = await totalIncomeHandler(
+    partTimeSql,
+    "Vacation_Days"
   );
 
   const countGeneralInfoDocuments = await GeneralInfo.find().countDocuments();
 
   if (countGeneralInfoDocuments === 0) {
     const generalInfo = new GeneralInfo({
+      totalIncome,
       totalIncomeShareholders,
       totalIncomeStaffs,
       totalIncomeMen,
       totalIncomeWomen,
       totalIncomeFullTime,
       totalIncomePartTime,
+
+      totalIncomeLastYear,
+      totalIncomeShareholdersLastYear,
+      totalIncomeStaffsLastYear,
+      totalIncomeMenLastYear,
+      totalIncomeWomenLastYear,
+      totalIncomeFullTimeLastYear,
+      totalIncomePartTimeLastYear,
+
+      totalVacationDay,
+      totalVacationDayShareholders,
+      totalVacationDayStaffs,
+      totalVacationDayMen,
+      totalVacationDayWomen,
+      totalVacationDayFullTime,
+      totalVacationDayPartTime,
     });
 
     await generalInfo
@@ -82,16 +158,33 @@ exports.updateGeneralInfo = async (req, res, next) => {
     const generalInfo = await GeneralInfo.findOne();
 
     await generalInfo.updateOne({
+      totalIncome,
       totalIncomeShareholders,
       totalIncomeStaffs,
       totalIncomeMen,
       totalIncomeWomen,
       totalIncomeFullTime,
       totalIncomePartTime,
+
+      totalIncomeLastYear,
+      totalIncomeShareholdersLastYear,
+      totalIncomeStaffsLastYear,
+      totalIncomeMenLastYear,
+      totalIncomeWomenLastYear,
+      totalIncomeFullTimeLastYear,
+      totalIncomePartTimeLastYear,
+
+      totalVacationDay,
+      totalVacationDayShareholders,
+      totalVacationDayStaffs,
+      totalVacationDayMen,
+      totalVacationDayWomen,
+      totalVacationDayFullTime,
+      totalVacationDayPartTime,
     });
 
     await generalInfo.save();
 
-    res.json({ message: "Update to date general info" });
+    res.json({ message: "Update to date general info up to date" });
   }
 };
