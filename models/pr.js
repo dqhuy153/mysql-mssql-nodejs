@@ -14,6 +14,8 @@ const pr = {
 
         callback(result);
       });
+
+      connection.release();
     });
   },
 
@@ -30,6 +32,8 @@ const pr = {
 
         callback(result);
       });
+
+      connection.release();
     });
   },
 
@@ -55,6 +59,8 @@ const pr = {
           callback(result);
         }
       );
+
+      connection.release();
     });
   },
 
@@ -101,6 +107,8 @@ const pr = {
           callback(result);
         }
       );
+
+      connection.release();
     });
   },
 
@@ -151,6 +159,8 @@ const pr = {
               callback(result);
             }
           );
+
+          connection.release();
         }
       );
     });
@@ -180,6 +190,8 @@ const pr = {
           );
         }
       );
+
+      connection.release();
     });
   },
 };

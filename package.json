@@ -17,6 +17,9 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-handlebars": "^5.3.3",
+    "mongoose": "^5.13.5",
+    "mongoose-delete": "^0.5.3",
+    "mongoose-slug-generator": "^1.0.4",
     "mssql": "^7.2.0",
     "mysql": "^2.18.1",
     "tedious": "^11.4.0"

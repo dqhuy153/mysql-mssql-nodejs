@@ -4,8 +4,7 @@ const hr = {
   filterEmployee(sql, callback) {
     hrConnector
       .then((pool) => {
-        // create Request object
-        return pool.query`${sql}`;
+        return pool.query(sql);
       })
       .then((result) => {
         return callback(result);
