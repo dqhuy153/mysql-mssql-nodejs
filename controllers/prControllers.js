@@ -19,16 +19,17 @@ module.exports = {
 
   //POST: /pr/new-employee
   addNewEmployee(req, res, next) {
-    const Employee_Number = 3;
-    const idEmployee = 3;
-    const Last_Name = "A";
-    const First_Name = "Nguyen";
-    const SSN = 3243;
-    const Pay_Rate = 3;
-    const Payrates_id = 1;
-    const Vacation_Days = 10;
-    const Paid_To_Date = 99;
-    const Paid_Last_Year = 99;
+    const idEmployee = req.body.id;
+
+    const Employee_Number = req.body.employeeNumber;
+    const Last_Name = req.body.lastName;
+    const First_Name = req.body.firstName;
+    const SSN = req.body.SSN;
+    const Pay_Rate = req.body.payRate;
+    const Payrates_id = req.body.payratesId;
+    const Vacation_Days = req.body.vacationDays;
+    const Paid_To_Date = req.body.paidToDate;
+    const Paid_Last_Year = req.body.paidLastYear;
 
     pr.addNewEmployee(
       {
@@ -53,15 +54,15 @@ module.exports = {
   updateEmployee(req, res, next) {
     const idEmployee = req.body.id;
 
-    const Employee_Number = 3;
-    const Last_Name = "B";
-    const First_Name = "Nguyen";
-    const SSN = 300;
-    const Pay_Rate = 3;
-    const Payrates_id = 2;
-    const Vacation_Days = 12;
-    const Paid_To_Date = 90;
-    const Paid_Last_Year = 99;
+    const Employee_Number = req.body.employeeNumber;
+    const Last_Name = req.body.lastName;
+    const First_Name = req.body.firstName;
+    const SSN = req.body.SSN;
+    const Pay_Rate = req.body.payRate;
+    const Payrates_id = req.body.payratesId;
+    const Vacation_Days = req.body.vacationDays;
+    const Paid_To_Date = req.body.paidToDate;
+    const Paid_Last_Year = req.body.paidLastYear;
 
     pr.updateEmployee(
       {

@@ -19,23 +19,23 @@ module.exports = {
 
   //POST: /hr/new-employee
   addNewEmployee(req, res, next) {
-    const firstName = "D";
-    const lastName = "Nguyen Van";
-    const middleInitial = "Abc";
-    const address1 = "Da nang";
-    const address2 = "a";
-    const city = "Da nang";
-    const state = "DN";
-    const zip = "55000"; //numeric
-    const email = "a@gmail.com";
-    const socialSecurityNumber = "abc";
-    const phoneNumber = "0905053532";
-    const gender = true;
-    const driversLicense = "abc";
-    const maritalStatus = "abc";
-    const shareholderStatus = true;
-    const benefitPlans = 1; //numeric
-    const ethnicity = "abc";
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const middleInitial = req.body.middleInitial;
+    const address1 = req.body.address1;
+    const address2 = req.body.address2;
+    const city = req.body.city;
+    const state = req.body.state;
+    const zip = req.body.zip;
+    const email = req.body.email;
+    const socialSecurityNumber = req.body.socialSecurityNumber;
+    const phoneNumber = req.body.phoneNumber;
+    const gender = req.body.gender;
+    const driversLicense = req.body.driversLicense;
+    const maritalStatus = req.body.maritalStatus;
+    const shareholderStatus = req.body.shareholderStatus;
+    const benefitPlans = req.body.benefitPlans;
+    const ethnicity = req.body.ethnicity;
 
     hr.addNewEmployee(
       {
@@ -65,25 +65,25 @@ module.exports = {
 
   //POST: /hr/update-employee
   updateEmployee(req, res, next) {
-    const employeeId = req.body.employeeId || 5;
+    const employeeId = req.body.id;
 
-    const firstName = "D";
-    const lastName = "Nguyen Van";
-    const middleInitial = "Abc";
-    const address1 = "Da nang";
-    const address2 = "a";
-    const city = "Da nang";
-    const state = "DN";
-    const zip = "55000"; //numeric
-    const email = "ab@gmail.com";
-    const socialSecurityNumber = "abc";
-    const phoneNumber = "0905053532";
-    const gender = true;
-    const driversLicense = "abc";
-    const maritalStatus = "abcd";
-    const shareholderStatus = true;
-    const benefitPlans = 1; //numeric
-    const ethnicity = "abcd";
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const middleInitial = req.body.middleInitial;
+    const address1 = req.body.address1;
+    const address2 = req.body.address2;
+    const city = req.body.city;
+    const state = req.body.state;
+    const zip = req.body.zip;
+    const email = req.body.email;
+    const socialSecurityNumber = req.body.socialSecurityNumber;
+    const phoneNumber = req.body.phoneNumber;
+    const gender = req.body.gender;
+    const driversLicense = req.body.driversLicense;
+    const maritalStatus = req.body.maritalStatus;
+    const shareholderStatus = req.body.shareholderStatus;
+    const benefitPlans = req.body.benefitPlans;
+    const ethnicity = req.body.ethnicity;
 
     hr.updateEmployee(
       {
@@ -114,7 +114,7 @@ module.exports = {
 
   //GET: /hr/delete-employee
   deleteEmployee(req, res, next) {
-    const employeeId = 6;
+    const employeeId = req.body.id;
 
     hr.deleteEmployee(employeeId, (result) => {
       res.status(200).json(result);
